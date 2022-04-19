@@ -1,0 +1,65 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+
+{% block titulo %}Detalle Documentos{% endblock titulo %}
+
+{% block contenido %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="card card-success">
+            <div class="card-header">
+                <h2 class="card-title">Listado documentos del proeycto: <a href="{% url 'detalle_proymacro' vp.id %}" class="badge badge-light text-dark">{{vp.nombre}}</a></h2>
+                
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    
+                    {% if documentos %}
+                    <table class="table table-striped projects">
+                        <thead>
+                            <tr class="text-center">
+                                <th style="width: 20%">Nombre documento</th>
+                                <th style="width: 20%">Documneto</th>
+                                <th style="width: 20%">Controles</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in documentos %}
+                            <tr class="text-center">
+                                <td>{{d.nombre}}</td>
+                                <td>
+                                    {% if d.documento.url %}
+                                        <a href="{{ d.documento.url }}" target="_blank">Ver documento</a>
+                                    {% else %}
+                                        No hay documento
+                                    {% endif %}
+                                        
+                                </td>
+                                <td>
+                                    <a class="btn btn-info btn-sm mb-1" href="{% url 'editar_documento_macro' d.pk %}">
+                                        <i class="fas fa-pencil-alt"></i>
+                                        Editar
+                                    </a>
+                                    <a class="btn btn-danger btn-sm mb-1" href="{% url 'borrar_documento_macro' d.pk %}">
+                                        <i class="fas fa-trash"></i>
+                                        Borrar
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <h3>Todavia no hay documentos</h3>
+                    {% endif %}
+                </div>
+            </div>
+    </section>
+</div>
+{% endblock contenido %}

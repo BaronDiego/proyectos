@@ -1,0 +1,285 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block titulo %}Panel de Control{% endblock titulo %}
+
+{% block contenido %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-1">
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="card card-success">
+                        <div class="card-header">
+                            <h4 class="card-title">Últimas Imágenes Agregadas</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                    {% for i in imagenes %}
+                                        <div class="col-sm-2">
+                                            <a href="{{i.imagen.url}}" data-toggle="lightbox" data-title="{{i.nombre}}"  data-gallery="gallery">
+                                                <img src="{{i.imagen.url}}" class="img-fluid mb-2" alt="{{i.nombre}}" />
+                                            </a>
+                                        </div>
+                                    {% empty %}
+                                        <h3>Todavia no hay imágenes</h3>
+                                    {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% comment %} <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            {% if total_costo_proyectos.total_costo_proyectos == None %}
+                                <h3>$0</h3>
+                            {% else %}
+                                <h3>${{total_costo_proyectos.total_costo_proyectos|intcomma}}</h3>
+                            {% endif %}
+                            <p>Total costo proyectos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-cash"></i>
+                        </div>
+                        <a href="{% url 'listado_costos' %}" class="small-box-footer">Mas información <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            {% if total_pagos_proyectos.Total_Pagos_proyectos == None %}
+                                <h3>$0</h3>
+                            {% else %} 
+                                <h3>${{total_pagos_proyectos.Total_Pagos_proyectos|intcomma}}</h3>
+                            {% endif %}
+                            <p>Total pagos realizados</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                        <a href="{% url 'listado_pagos' %}" class="small-box-footer">Mas información <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="small-box bg-primary">
+                        <div class="inner">
+                            <h3>{{suma_cant_proy_eje|safe}} {% if suma_cant_proy_eje > 1 or suma_cant_proy_eje == 0 %}proyectos{% else %}proyecto{% endif %} </h3>
+                            <p>En ejecución</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-angle-double-right"></i>
+                        </div>
+                        <a href="{% url 'listado_proy_ejec' %}" class="small-box-footer">Mas información <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>{{suma_cant_proy_sus|safe}} {% if suma_cant_proy_sus > 1 or suma_cant_proy_sus == 0 %}Proyectos{% else %}Proyecto{% endif %}</h3>
+                            <p>{% if suma_cant_proy_sus > 1 or suma_cant_proy_sus == 0 %}Suspendidos{% else %}Suspendido{% endif %}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-pause"></i>
+                        </div>
+                        <a href="{% url 'listado_proy_susp' %}" class="small-box-footer">Mas información <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>{{suma_cant_proy_canc|safe}} {% if suma_cant_proy_canc > 1 or suma_cant_proy_canc == 0 %}Proyectos{% else %}Proyecto{% endif %}</h3>
+                            <p>{% if suma_cant_proy_canc > 1 or suma_cant_proy_canc == 0 %}Cancelados{% else %}cancelado{% endif %}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-pause"></i>
+                        </div>
+                        <a href="{% url 'listado_proy_canc' %}" class="small-box-footer">Mas información <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>{{suma_cant_proy_fin|safe}} {% if suma_cant_proy_fin > 1 or suma_cant_proy_fin == 0 %}proyectos{% else %}proyecto{% endif %}</h3>
+                            <p>{% if suma_cant_proy_fin > 1 or suma_cant_proy_fin == 0 %}Finalizados{% else %}Finalizado{% endif %}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <a href="{% url 'listado_proy_fin' %}" class="small-box-footer">Mas información <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div> {% endcomment %}
+                <!-- <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="small-box bg-dark">
+                        <div class="inner">
+                            <h3>{{porcentaje_ejecucion|safe|floatformat}}%</h3>
+                            <p>De ejecución</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Listado de Proyectos</h3>
+                        </div>
+                        <div class="card-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th style="width:30%">Avance</th>
+                                        <th>Costo</th>
+                                        <th>Terminal</th>
+                                        <th>Tipo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for q in queryset %}
+                                        <tr>
+                                            <td><a href="{% url  'detalle_proyecto' q.id %}">{{q.nombre|upper}}</a></td>
+                                            <td class="project_progress">
+                                                <small>
+                                                    {% if q.programado == None %}
+                                                        Programado 0,0%
+                                                    {% else %}
+                                                        Programado {{q.programado}}%
+                                                    {% endif %}
+                                                </small>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar bg-blue" role="progressbar" aria-valuenow="57"
+                                                        aria-valuemin="0" aria-valuemax="100"
+                                                        style="width: {{q.programado|safe}}%">
+                                                    </div>
+                                                </div>
+    
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar bg-orange" role="progressbar"
+                                                        aria-valuenow="57" aria-valuemin="0" aria-valuemax="100"
+                                                        style="width: {{q.avance|safe}}%">
+                                                    </div>
+                                                </div>
+                                                <small>
+                                                    {% if q.avance == None %}
+                                                        Ejecutado 0,0%
+                                                    {% else %}
+                                                        Ejecutado {{q.avance}}%
+                                                    {% endif %}
+                                                </small>
+                                            </td>
+                                            <td>${{q.valor_proyecto|intcomma}}</td>
+                                            <td>
+                                                {% if q.terminal == 'BUN' %}
+                                                <span style="color: #ff851b;"><b>Buenaventura</b></span>
+                                                {% endif %}
+                                                {% if q.terminal == 'CTG' %}
+                                                    <span style="color: #6610f2;"><b>Cartagena</b></span>
+                                                {% endif %}
+                                                {% if q.terminal == 'BOG' %}
+                                                    <span style="color: #022c0c;"><b>Bogotá</b></span>
+                                                {% endif %}
+                                                {% if q.terminal == 'GLB' %}
+                                                    <span style="color: blue;"><b>Global</b></span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if q.proyecto_macro_id %}
+                                                    <h6 class="text-info"><b>Macro</b></h6>
+                                                {% else %}
+                                                    <h6 class="text-primary"><b>Sencillo</b></h6>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    {% for q in proyecto_macro %}
+                                        <tr>
+                                            <td><a href="{% url  'detalle_proymacro' q.id %}">{{q.nombre|upper}}</a></td>
+                                            <td class="project_progress">
+                                                <small>
+                                                    {% if q.programado == None %}
+                                                        Programado 0,0%
+                                                    {% else %}
+                                                        Programado {{q.programado}}%
+                                                    {% endif %}
+                                                </small>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar bg-blue" role="progressbar" aria-valuenow="57"
+                                                        aria-valuemin="0" aria-valuemax="100"
+                                                        style="width: {{q.programado|safe}}%">
+                                                    </div>
+                                                </div>
+    
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar bg-orange" role="progressbar"
+                                                        aria-valuenow="57" aria-valuemin="0" aria-valuemax="100"
+                                                        style="width: {{q.avance|safe}}%">
+                                                    </div>
+                                                </div>
+                                                <small>
+                                                    {% if q.avance == None %}
+                                                        Ejecutado 0,0%
+                                                    {% else %}
+                                                        Ejecutado {{q.avance}}%
+                                                    {% endif %}
+                                                </small>
+                                            </td>
+                                            <td>
+                                                {% if q.valor_proyecto == None %}
+                                                    $0
+                                                {% else %}
+                                                    ${{q.valor_proyecto|intcomma}}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if q.terminal == 'BUN' %}
+                                                <span style="color: #ff851b;"><b>Buenaventura</b></span>
+                                                {% endif %}
+                                                {% if q.terminal == 'CTG' %}
+                                                    <span style="color: #6610f2;"><b>Cartagena</b></span>
+                                                {% endif %}
+                                                {% if q.terminal == 'BOG' %}
+                                                    <span style="color: #022c0c;"><b>Bogotá</b></span>
+                                                {% endif %}
+                                                {% if q.terminal == 'GLB' %}
+                                                    <span style="color: blue;"><b>Global</b></span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if q.proyecto_macro_id %}
+                                                    <h6 class="text-info"><b>Sencillo</b></h6>
+                                                {% else %}
+                                                    <h6 class="text-success"><b>Macro</b></h6>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                        
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock contenido %}
+{% block js_page %}
+<script>
+    $(document).ready(function(){
+        $('.table').DataTable();
+    });
+</script>
+{% endblock js_page %}

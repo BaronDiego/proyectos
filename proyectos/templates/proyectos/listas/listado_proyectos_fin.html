@@ -1,0 +1,95 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% block titulo %}Listado proyectos finalizados{% endblock titulo %}
+{% block contenido %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h2 class="card-title">Listado Proyectos Finalizados</h2>
+            </div>
+            <div class="card-body p-1">
+                
+                {% if proy_fin or proy_fin_macro%}
+                <div class="table-responsive">
+                    <table class="table table-striped projects ">
+                        <thead>
+                            <tr class="text-center">
+                                <th style="width: 30%">Nombre Proyecto</th>
+                                <th style="width: 20%">Estado</th>
+                                <th style="width: 20%">Terminal</th>
+                                <th style="width: 20%">Controles</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in proy_fin %}
+                                <tr class="text-center">
+                                    <td>{{p.nombre}}</td>
+                                    <td><span class="badge badge-success">Finalizado</span></td>
+                                    <td>
+                                        {% if p.terminal == 'BUN' %}
+                                            <span style="color: #ff851b;"><b>Buenaventura</b></span>
+                                        {% endif %}
+                                        {% if p.terminal == 'CTG' %}
+                                            <span style="color: #6610f2;"><b>Cartagena</b></span>
+                                        {% endif %}
+                                        {% if p.terminal == 'BOG' %}
+                                        <span style="color: #022c0c;"><b>Bogotá</b></span>
+                                        {% endif %}
+                                        {% if p.terminal == 'GLB' %}
+                                            <span style="color: blue;"><b>Global</b></span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-success btn-sm mb-1" href="{% url 'detalle_proyecto' p.pk %}">
+                                            <i class="fas fa-folder"></i>
+                                            Ver
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            {% for p in proy_fin_macro %}
+                                <tr class="text-center">
+                                    <td>{{p.nombre}}</td>
+                                    <td><span class="badge badge-success">Finalizado</span></td>
+                                    <td>
+                                        {% if p.terminal == 'BUN' %}
+                                            <span style="color: #ff851b;"><b>Buenaventura</b></span>
+                                        {% endif %}
+                                        {% if p.terminal == 'CTG' %}
+                                            <span style="color: #6610f2;"><b>Cartagena</b></span>
+                                        {% endif %}
+                                        {% if p.terminal == 'BOG' %}
+                                        <span style="color: #022c0c;"><b>Bogotá</b></span>
+                                        {% endif %}
+                                        {% if p.terminal == 'GLB' %}
+                                            <span style="color: blue;"><b>Global</b></span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-success btn-sm mb-1" href="{% url 'detalle_proymacro' p.pk %}">
+                                            <i class="fas fa-folder"></i>
+                                            Ver
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <h3>No hay proyectos finalizados</h3>
+                {% endif %}
+                    
+               
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock contenido %}

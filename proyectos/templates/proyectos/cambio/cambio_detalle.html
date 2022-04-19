@@ -1,0 +1,31 @@
+
+    <div class="table-responsive">
+        <table class="table table-striped projects ">
+            <thead>
+                <tr class="text-center">
+                    <th>Tipo de cambio</th>
+                    <th>Afecta Tiempo</th>
+                    <th>Duración</th>
+                    <th>Afecta Costo</th>
+                    <th>Costo</th>
+                    <th>Fecha de Cambio</th>
+                    <th>Genero Documento</th>
+                    <th>Nombre Documento</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in cambios %}
+                    <tr class="text-center">
+                        <td>{{c.tipo}}</td>
+                        <td>{{c.afecta_tiempo}}</td>
+                        <td>{{c.duracion}}</td>
+                        <td>{{c.afecta_costo}}</td>
+                        <td>{{c.costo}}</td>
+                        <td>{{c.fecha_de_cambio}}</td>
+                        <td>{{c.genero_documento}}</td>
+                        <td>{{c.nombre_documento}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>

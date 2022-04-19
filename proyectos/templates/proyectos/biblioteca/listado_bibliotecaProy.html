@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+{% block titulo %}Listado Biblioteca Proyectos{% endblock titulo %}
+{% block contenido %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="card card-info">
+            <div class="card-header">
+                <h2 class="card-title">Listado Biblioteca  Proyectos</h2>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body p-1">
+                
+                {% if obj %}
+                    <ul>
+                        {% for p in obj %}
+                            <li><a href="{% url 'detalle_biblioteca' p.pk %}">{{p.nombre}}</a> --- <a href="{% url 'editar_biblioteca' p.pk %}" class="text-success">Editar</a> --- <a href="{% url 'borrar_biblioteca' p.pk %}" class="text-danger">Borrar</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <h3>No hay proyectos creados</h3>
+                {% endif %}
+                    
+                
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock contenido %}

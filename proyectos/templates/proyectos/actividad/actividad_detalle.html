@@ -1,0 +1,106 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+
+{% block titulo %}Detalle Actividades{% endblock titulo %}
+
+{% block contenido %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="card card-success">
+            <div class="card-header">
+                <h2 class="card-title">Listado Actividades del Proeycto: <a href="{% url 'detalle_proymacro' vp.id %}" class="badge badge-light text-dark">{{vp.nombre}}</a></h2>
+                
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    
+                    {% if actividades %}
+                    <table class="table table-striped projects">
+                        <thead>
+                            <tr class="text-center">
+                                <th style="width: 20%">Nombre Actividad</th>
+                                <th style="width: 10%">Fecha Inicio</th>
+                                <th style="width: 10%">Fecha Fin</th>
+                                <th style="width: 8%">Duración</th>
+                                <th style="width: 15%">% Programado</th>
+                                <th style="width: 15%">% Ejecutado</th>
+                                <th style="width: 17%">Controles</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for a in actividades %}
+                            <tr class="text-center">
+                                <td>{{a.nombre}}</td>
+                                <td>{{a.fecha_inicio|date:"d-M-Y"}}</td>
+                                <td>{{a.fecha_fin|date:"d-M-Y"}}</td>
+                                <td>
+                                    
+                                    {% if a.duracion > 1 %}
+                                        {{a.duracion}} días
+                                    {% else %}
+                                        {{a.duracion}} día
+                                    {% endif %}
+                                        
+                                    <!-- {{a.duracion}} días -->
+                                </td>
+                                <td class="project_progress">
+                                    <small> 
+                                        <b class="text-blue">
+                                            {% if a.programado == None %}
+                                                0,0%
+                                            {% else %}
+                                                {{a.programado}}%
+                                            {% endif %}
+                                        </b>
+                                    </small>
+                                    <div class="progress progress">
+                                        <div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{a.programado|safe}}"
+                                            aria-valuemin="0" aria-valuemax="100"
+                                            style="width: {{a.programado|safe}}%">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="project_progress">
+                                    <small>
+                                        <b class="text-orange">
+                                            {% if a.avance == None %}
+                                                0,0%
+                                            {% else %}
+                                                {{a.avance}}%
+                                            {% endif %}
+                                        </b>
+                                    </small>
+                                    <div class="progress progress">
+                                        <div class="progress-bar bg-orange progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="57"aria-valuemin="0" aria-valuemax="100"
+                                            style="width: {{a.avance|safe}}%">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a class="btn btn-info btn-sm mb-1" href="{% url 'actualizar_actividad' a.pk %}">
+                                        <i class="fas fa-pencil-alt"></i>
+                                        Editar
+                                    </a>
+                                    <a class="btn btn-danger btn-sm mb-1" href="{% url 'borrar_actividad' a.pk %}">
+                                        <i class="fas fa-trash"></i>
+                                        Borrar
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <h3>Todavia no hay actividades</h3>
+                    {% endif %}
+                </div>
+            </div>
+    </section>
+</div>
+{% endblock contenido %}

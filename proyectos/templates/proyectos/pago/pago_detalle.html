@@ -1,0 +1,114 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+
+{% block titulo %}Detalle Pago{% endblock titulo %}
+
+{% block contenido %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="card card-success">
+            <div class="card-header">
+                <h2 class="card-title">Listado de pagos realizados al proeycto: <a href="{% url 'detalle_proyecto' vp.id %}" class="badge badge-light text-dark">{{vp.nombre}}</a></h2>
+                
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    
+                    {% if total_pagos.Total_Pagos == 0 %}
+                        <h3>Todavia no hay pagos</h3>
+                    {% else %}
+                        <table class="table table-striped projects">
+                            <thead>
+                                <tr class="text-center">
+                                    <th style="width: 20%">
+                                        Fecha Pago
+                                    </th>
+                                    <th style="width: 20%">
+                                        Valor Pagado
+                                    </th>
+                                    <th style="width: 20%">
+                                        Concepto Pago
+                                    </th>
+                                    <th style="width: 20%">
+                                        # Factura
+                                    </th>
+                                    <th style="width: 20%">
+                                        Controles
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in pagos %}
+                                    <tr class="text-center">
+                                        <td>{{p.fecha_pago|date:"d-M-Y"}}</td>
+                                        <td>${{p.valor_pago|intcomma}}</td>
+                                        <td>{{p.concepto_pago}}</td>
+                                        <td>{{p.numero_factura}}</td>
+                                        <td>
+                                            {% if perms.proyectos.change_pago %}
+                                            <a class="btn btn-info btn-sm mb-1" href="{% url 'editar_pago' p.id %}">
+                                                <i class="fas fa-pencil-alt"></i>
+                                                Editar
+                                            </a>
+                                            {% endif %}
+                                            {% if perms.proyectos.delete_pago %}
+                                            <a class="btn btn-danger btn-sm mb-1" href="{% url 'borrar_pago' p.pk %}">
+                                                <i class="fas fa-trash"></i>
+                                                Borrar
+                                            </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                        
+                    
+                    <hr>
+                    
+                    {% if vp == None %}
+                        <h4>Todavia no hay pagos</h2>
+                    {% else %}
+                        <table class="table table-striped projects">
+                            <thead>
+                                <tr  class="text-center">
+                                    <th>Total Costo Proyecto</th>
+                                    <th>Total Pagos</th>
+                                    <th>Valor por Pagar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr  class="text-center">
+                                    <td><h4 class="text-primary">${{vp.valor_proyecto|intcomma}}</h4></td>
+                                    <td>  
+                                        {% if total_pagos.Total_Pagos == None %}
+                                            <h4>Todavia no hay pagos</h2>
+                                        {% else %}
+                                            <h4 class="text-success">${{total_pagos.Total_Pagos|intcomma}}</h4>
+                                        {% endif %}
+                                    </td>
+                                    <td><h4 class="text-danger">
+                                        {% if vpp == None %}
+                                            Todavia no hay pagos
+                                        {% else %}
+                                            ${{vpp|intcomma}}
+                                        {% endif %}
+                                    </h4></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    {% endif %}
+                        
+                    
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock contenido %}

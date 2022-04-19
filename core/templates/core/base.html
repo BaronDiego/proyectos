@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/jpg" href="{% static 'img/favicon2.ico' %}" />
+    <title>{% block titulo %}{% endblock titulo %}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="{% static 'css/fontawesome-free/css/all.min.css' %}">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{% static 'css/tempusdominus-bootstrap-4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Chart.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ekko-lightbox.css' %}">
+    <link rel="stylesheet" href="{% static 'css/adminlte.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/OverlayScrollbars.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/daterangepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'css/summernote-bs4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery-confirm.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap4.min.css' %}">
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <div class="preloader flex-column justify-content-center align-items-center">
+            <img class="animation__shake" src="{% static 'img/favicon.png' %}" alt="AppGranel" height="70" width="70">
+        </div>
+
+        {% if user.is_authenticated %}
+            {% include 'core/navbar.html' %}
+            {% include 'core/sidebar.html' %}
+            {% block contenido %}
+            
+            {% endblock contenido %}
+        {% else %}
+            {% block login %}
+            {% endblock login %}
+            {% block logout %}
+            {% endblock logout %}
+            {% block index %}
+            {% endblock index %}
+        {% endif %}
+    </div>
+
+    <script src="{% static 'js/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.0/chart.min.js" integrity="sha512-asxKqQghC1oBShyhiBwA+YgotaSYKxGP1rcSYTDrB0U6DxwlJjU59B67U8+5/++uFjcuVM8Hh5cokLjZlhm3Vg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <script src="{% static 'js/Chart.min.js' %}"></script>
+    <script src="{% static 'js/moment.min.js' %}"></script>
+    <script src="{% static 'js/daterangepicker.js' %}"></script>
+    <script src="{% static 'js/ekko-lightbox.min.js' %}"></script>
+    <script src="{% static 'js/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <script src="{% static 'js/summernote-bs4.min.js' %}"></script>
+    <script src="{% static 'js/jquery.overlayScrollbars.min.js' %}"></script>
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'js/responsive.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'js/adminlte.min.js' %}"></script>
+    <script src="{% static 'js/demo.js' %}"></script>
+    <script src="{% static 'js/jquery-confirm.min.js' %}"></script>
+    <script>
+        $(function () {
+            $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+                event.preventDefault();
+                $(this).ekkoLightbox({
+                    alwaysShowClose: true
+                });
+            });
+
+            // $('.filter-container').filterizr({
+            //     gutterPixels: 3
+            // });
+            $('.btn[data-filter]').on('click', function () {
+                $('.btn[data-filter]').removeClass('active');
+                $(this).addClass('active');
+            });
+        })
+    </script>
+    {% block control_modal %}
+    <script>
+        function abrir_modal(url) {
+            $('#popup').load(url, function () {
+                $(this).modal({
+                    backdrop: 'static',
+                    keyboard: false
+                })
+                $(this).modal('show')
+            });
+            return false;
+        }
+
+        function cerrar_modal() {
+            $('#popup').modal('hide');
+            return false;
+        }
+
+        function mensaje(msg, color = 'green') {
+            $.alert({
+                title: '',
+                theme: 'material',
+                type: color,
+                content: msg
+            });
+        } 
+        {% if messages %} 
+            {%for message in messages %}
+                mensaje('{{message}}')
+            {% endfor %} 
+        {% endif %}
+    </script>
+
+    {% endblock control_modal %}
+
+    {% block js_page %}
+
+    {% endblock js_page %}
+
+
+</body>
+
+</html>

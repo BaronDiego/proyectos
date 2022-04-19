@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+
+{% block titulo %}Detalle Imágenes{% endblock titulo %}
+
+{% block contenido %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h4 class="card-title">Galería proyecto: <a href="{% url 'detalle_proyecto' vp.id %}"
+                                    class="text-warning">{{vp.nombre}}</a></h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                {% if imagenes %}
+                                    {% for i in imagenes %}
+                                        <div class="col-sm-2">
+                                            <a href="{{i.imagen.url}}" data-toggle="lightbox" data-title="{{i.nombre}}"  data-gallery="gallery">
+                                                <img src="{{i.imagen.url}}" class="img-fluid mb-2" alt="{{i.nombre}}" />
+                                            </a>
+                                            <a href="{% url 'borrar_imagen' i.pk %}" class="text-danger">Eliminar</a>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <h3>Todavia no hay imágenes</h3>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock contenido %}

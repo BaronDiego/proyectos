@@ -1,0 +1,108 @@
+{% extends 'core/base.html' %}
+{% block titulo %}Listado de proyectos{% endblock titulo %}
+{% block contenido %}
+{% load users_tags %}
+{% total_users as tu %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="card card-info">
+            <div class="card-header">
+                <h2 class="card-title">Listado de Proyectos</h2>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body p-1">
+                
+                {% if proyectos_list %}
+                <div class="table-responsive">
+                    <table class="table table-striped projects ">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Nombre Proyecto</th>
+                                <th>Estado</th>
+                                <th>Terminal</th>
+                                <th>Controles</th>
+                                <th>Creado Por</th>
+                                <th>Actualizado Por</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in proyectos_list %}
+                                <tr class="text-center">
+                                    <td><a href="{% url 'detalle_proyecto' p.pk %}">{{p.nombre}}</a></td>
+                                    <td>
+                                        {% if p.estado == 'EJ' %}
+                                            <span class="badge badge-info">En ejecución</span>
+                                        {% endif %}
+                                        {% if p.estado == 'F' %}
+                                            <span class="badge badge-success">Finalizado</span>
+                                        {% endif %}
+                                        {% if p.estado == 'S' %}
+                                            <span class="badge badge-warning">Suspendido</span>
+                                        {% endif %}
+                                        {% if p.estado == 'C' %}
+                                            <span class="badge badge-danger">Cancelado</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if p.terminal == 'BUN' %}
+                                            <span style="color: #ff851b;"><b>Buenaventura</b></span>
+                                        {% endif %}
+                                        {% if p.terminal == 'CTG' %}
+                                            <span style="color: #6610f2;"><b>Cartagena</b></span>
+                                        {% endif %}
+                                        {% if p.terminal == 'BOG' %}
+                                        <span style="color: #022c0c;"><b>Bogotá</b></span>
+                                        {% endif %}
+                                        {% if p.terminal == 'GLB' %}
+                                            <span style="color: blue;"><b>Global</b></span>
+                                        {% endif %}
+                                    <td>
+                                        <a class="btn btn-info btn-sm mb-1" href="{% url 'editar_proyecto' p.pk %}">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <a class="btn btn-danger btn-sm mb-1" href="{% url 'borrar_proyecto' p.pk %}">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                    <td>{{p.uc}} el {{p.creado|date:"d-M-Y"}}</td>
+                                    <td>
+                                        {% with um=p.um %}
+                                            {% if um == None %}
+                                                Aún no se actualiza
+                                            {% else %}
+                                                {% for u in tu %}
+                                                    {% if u.id == um %}
+                                                        {{u.username}} el {{p.actualizado|date:"d-M-Y"}}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endwith %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                    <h3>No hay proyectos creados</h3>
+                {% endif %}
+                    
+                
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock contenido %}

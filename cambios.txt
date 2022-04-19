@@ -1,0 +1,208 @@
+Crear proyecto macro y subproyectos
+En las gráficas poner solo proyectos macros
+
+<div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="card card-primary card-tabs">
+                  <div class="card-header p-0 pt-1">
+                    <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Crear Pago</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Subir Documento</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Control de Cambio</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Subir Imágen</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-one-tabContent">
+
+                        <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                            <div class="col-sm-12 col-md-12">
+                                {% if perms.proyectos_add_pago %}
+                                    <div class="card card-info">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Añadir nuevo pago</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <form action="." method="post">
+                                                {% csrf_token %}
+                                                {{pago_form|crispy}}
+                                                <p><input type="submit" value="Añadir pago" class="btn btn-success"></p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                      <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                        <div class="col-sm-12 col-md-12">
+                            {% if perms.proyectos_add_documento %}
+                            <div class="card card-info">
+                                <div class="card-header">
+                                    <h4 class="card-title">Añadir nuevo documento</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form method="POST"  enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {{documento_form|crispy}}
+                                        <p><input type="submit" value="Añadir documento" class="btn btn-success"></p>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                      </div>
+
+                      <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+                        <div class="col-sm-12 col-md-12">
+                            {% if perms.proyectos_add_cambio %}
+                            <div class="card card-info">
+                                <div class="card-header">
+                                    <h4 class="card-title">Añadir nuevo cambio</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form action="." method="post">
+                                        {% csrf_token %}
+                                        {{form_cambio|crispy}}
+                                        <p><input type="submit" value="Añadir cambio" class="btn btn-success"></p>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                      </div>
+
+                      <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                        <div class="col-sm-12 col-md-12">
+                            {% if perms.proyectos_add_imagen %}
+                            <div class="card card-info">
+                                <div class="card-header">
+                                    <h4 class="card-title">Añadir nueva imágen</h4>
+                                </div>
+                                <div class="card-body">
+                                    <h2>Añadir nueva imágen</h2>
+                                    <form method="POST"  enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {{imagen_form|crispy}}
+                                        <p><input type="submit" value="Añadir imágen" class="btn btn-success"></p>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+                <div class="card card-info card-tabs">
+                  <div class="card-header p-0 pt-1">
+                    <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="custom-tabs-mensajes-tab" data-toggle="pill" href="#custom-tabs-mensajes" role="tab" aria-controls="custom-tabs-mensajes" aria-selected="true">Crear Pago</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Subir Documento</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Control de Cambio</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Subir Imágen</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-one-tabContent">
+
+                        <div class="tab-pane fade show active" id="custom-tabs-mensajes" role="tabpanel" aria-labelledby="custom-tabs-mensajes-tab">
+                            <div class="col-sm-12 col-md-12">
+                                {% if perms.proyectos_add_pago %}
+                                    <div class="card card-info">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Añadir nuevo pago</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <form action="." method="post">
+                                                {% csrf_token %}
+                                                {{pago_form|crispy}}
+                                                <p><input type="submit" value="Añadir pago" class="btn btn-success"></p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                      <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                        <div class="col-sm-12 col-md-12">
+                            {% if perms.proyectos_add_documento %}
+                            <div class="card card-info">
+                                <div class="card-header">
+                                    <h4 class="card-title">Añadir nuevo documento</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form method="POST"  enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {{documento_form|crispy}}
+                                        <p><input type="submit" value="Añadir documento" class="btn btn-success"></p>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                      </div>
+
+                      <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+                        <div class="col-sm-12 col-md-12">
+                            {% if perms.proyectos_add_cambio %}
+                            <div class="card card-info">
+                                <div class="card-header">
+                                    <h4 class="card-title">Añadir nuevo cambio</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form action="." method="post">
+                                        {% csrf_token %}
+                                        {{form_cambio|crispy}}
+                                        <p><input type="submit" value="Añadir cambio" class="btn btn-success"></p>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                      </div>
+
+                      <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                        <div class="col-sm-12 col-md-12">
+                            {% if perms.proyectos_add_imagen %}
+                            <div class="card card-info">
+                                <div class="card-header">
+                                    <h4 class="card-title">Añadir nueva imágen</h4>
+                                </div>
+                                <div class="card-body">
+                                    <h2>Añadir nueva imágen</h2>
+                                    <form method="POST"  enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {{imagen_form|crispy}}
+                                        <p><input type="submit" value="Añadir imágen" class="btn btn-success"></p>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>

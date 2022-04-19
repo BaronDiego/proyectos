@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block titulo %}Editar Proyecto{% endblock titulo %}
+
+{% block contenido %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Editar proyecto: <b>{{proyecto_editar.nombre}}</b></h3>
+                        </div>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="card-body">
+                                <div class="form-group">
+                                    {{form|crispy}}
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-success">Editar</button>
+                                <a type="button" class="btn btn-danger" href="{% url 'proyectos_list' %}">Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock contenido %}

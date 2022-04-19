@@ -1,0 +1,526 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block titulo %}{{proyecto.nombre}}{% endblock titulo %}
+
+{% block contenido %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-1">
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="card card-success">
+            <div class="card-header">
+                <h2 class="card-title">Detalle del proyecto: <b>{{proyecto.nombre}}</b> - {{proyecto.terminal}} </h2>
+                <div class="card-tools">
+                    <button type="button" class="btn bg-success btn-sm" data-card-widget="collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn bg-success btn-sm" data-card-widget="remove">
+                      <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-lg-12 order-2 order-md-1">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-12">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Fecha de Inicio</span>
+                                        <span class="info-box-number text-center text-muted mb-0">{{proyecto.fecha_inicio|date:"d-M-Y"}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Fecha Fin</span>
+                                        <span class="info-box-number text-center text-muted mb-0">{{proyecto.fecha_fin|date:"d-M-Y"}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Duración</span>
+                                        <span class="info-box-number text-center text-muted mb-0">{{proyecto.duracion}} días</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Contratista</span>
+                                        <span class="info-box-number text-center text-muted mb-0">{{proyecto.contratista}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-12">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Costo Planeado</span>
+                                        <span class="info-box-number text-center text-muted mb-0">${{proyecto.valor_proyecto_planeado|intcomma}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Costo del Proyecto</span>
+                                        <span class="info-box-number text-center text-muted mb-0">${{proyecto.valor_proyecto|intcomma}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">No. Contrato</span>
+                                        <span class="info-box-number text-center text-muted mb-0">{{proyecto.numero_contrato}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Facturación</span>
+                                        <a href="{% url 'detalle_pago' proyecto.id %}" class="info-box-number text-center text-primary mb-0">Ver pagos</a>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-12">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Responsable del Proyecto</span>
+                                        <span class="info-box-number text-center text-muted mb-0">{{proyecto.responsable}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Interventoria</span>
+                                        <span class="info-box-number text-center text-muted mb-0">
+                                            {% if proyecto.interventoria %}
+                                                SI
+                                            {% else %}
+                                                NO
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Documentos</span>
+                                        <a href="{% url 'detalle_doc' proyecto.id %}" class="info-box-number text-center text-primary mb-0">Ver documentos</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Estado</span>
+                                        <span class="info-box-number text-center text-muted mb-0">
+                                            {% if proyecto.estado == 'EJ' %}
+                                                <span class="badge badge-info">En ejecución</span>
+                                            {% endif %}
+                                            {% if proyecto.estado == 'F' %}
+                                                <span class="badge badge-success">Finalizado</span>
+                                            {% endif %}
+                                            {% if proyecto.estado == 'S' %}
+                                                <span class="badge badge-warning">Suspendido</span>
+                                            {% endif %}
+                                            {% if proyecto.estado == 'C' %}
+                                                <span class="badge badge-danger">Cancelado</span>
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <h2>Objeto del Contrato</h2>
+                                <div class="post">
+                                    <p>{{proyecto.objeto}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h4 class="card-title">Control de Cambios</h4>
+                        <div class="card-tools">
+                            <button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
+                              <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
+                              <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                    
+                            {% if cambios %}
+                            <table class="table table-striped projects ">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>Tipo de cambio</th>
+                                        <th>Afecta Tiempo</th>
+                                        <th>Duración</th>
+                                        <th>Afecta Costo</th>
+                                        <th>Costo</th>
+                                        <th>Fecha de Cambio</th>
+                                        <th>Genero Documento</th>
+                                        <th>Nombre Documento</th>
+                                        <th>Controles</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for c in cambios %}
+                                        <tr class="text-center">
+                                            <td>{{c.tipo}}</td>
+                                            <td>
+                                                {% if c.afecta_tiempo == True %}
+                                                    SI
+                                                {% else %}
+                                                    NO
+                                                {% endif %}
+                                            <td>
+                                                {% if c.duracion == None %}
+                                                    -
+                                                {% else %}
+                                                    {{c.duracion}} días
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if c.afecta_costo == True %}
+                                                    SI
+                                                {% else %}
+                                                    NO
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if c.costo == None %}
+                                                    -
+                                                {% else %}
+                                                    ${{c.costo|intcomma}}
+                                                {% endif %}
+                                            </td>
+                                            <td>{{c.fecha_de_cambio|date:"d-M-Y"}}</td>
+                                            <td>
+                                                {% if c.genero_documento == True %}
+                                                    SI
+                                                {% else %}
+                                                    NO
+                                                {% endif %}
+                                            </td>
+                                            <td>{{c.nombre_documento}}</td>
+                                            <td>
+                                                {%  if perms.proyectos.change_cambio %}
+                                                    <a class="btn btn-info btn-sm mb-1" href="{% url 'editar_cambio' c.id %}">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                        Editar
+                                                    </a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% else %}
+                                <h4>Todavia no hay cambios en el proyecto</h4>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="card card-primary card-tabs">
+                  <div class="card-header p-0 pt-1">
+                    <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="custom-tabs-pago-tab" data-toggle="pill" href="#custom-tabs-pago" role="tab" aria-controls="custom-tabs-pago" aria-selected="true">Crear Pago</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-documento-tab" data-toggle="pill" href="#custom-tabs-documento" role="tab" aria-controls="custom-tabs-documento" aria-selected="false">Subir Documento</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-cambio-tab" data-toggle="pill" href="#custom-tabs-cambio" role="tab" aria-controls="custom-tabs-cambio" aria-selected="false">Control de Cambio</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-one-imagen-tab" data-toggle="pill" href="#custom-tabs-one-imagen" role="tab" aria-controls="custom-tabs-one-imagen" aria-selected="false">Subir Imágen</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-actividad-tab" data-toggle="pill" href="#custom-tabs-actividad" role="tab" aria-controls="custom-tabs-actividad" aria-selected="false">Crear Actividad</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-one-tabContent">
+
+                        <div class="tab-pane fade show active" id="custom-tabs-pago" role="tabpanel" aria-labelledby="custom-tabs-pago-tab">
+                            <div class="col-sm-12 col-md-12">
+                                {% if perms.proyectos.add_pago %}
+                                    <div class="card card-info">
+                                        <div class="card-body">
+                                            <form action="." method="post">
+                                                {% csrf_token %}
+                                                {{pago_form|crispy}}
+                                                <p><input type="submit" value="Añadir pago" class="btn btn-success"></p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                      <div class="tab-pane fade" id="custom-tabs-documento" role="tabpanel" aria-labelledby="custom-tabs-documento-tab">
+                        <div class="col-sm-12 col-md-12">
+                            {% if perms.proyectos.add_documento %}
+                            <div class="card card-info">
+                                <div class="card-body">
+                                    <form method="POST"  enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {{documento_form|crispy}}
+                                        <p><input type="submit" value="Añadir documento" class="btn btn-success"></p>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                      </div>
+
+                      <div class="tab-pane fade" id="custom-tabs-cambio" role="tabpanel" aria-labelledby="custom-tabs-cambio-tab">
+                        <div class="col-sm-12 col-md-12">
+                            {% if perms.proyectos.add_cambio %}
+                            <div class="card card-info">
+                                <div class="card-body">
+                                    <form action="." method="post">
+                                        {% csrf_token %}
+                                        {{form_cambio|crispy}}
+                                        <p><input type="submit" value="Añadir cambio" class="btn btn-success"></p>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                      </div>
+
+                      <div class="tab-pane fade" id="custom-tabs-one-imagen" role="tabpanel" aria-labelledby="custom-tabs-one-imagen-tab">
+                        <div class="col-sm-12 col-md-12">
+                            {% if perms.proyectos.add_imagen %}
+                            <div class="card card-info">
+                                <div class="card-body">
+                                    <h2>Añadir nueva imágen</h2>
+                                    <form method="POST"  enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {{imagen_form|crispy}}
+                                        <p><input type="submit" value="Añadir imágen" class="btn btn-success"></p>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                      </div>
+
+                      <div class="tab-pane fade" id="custom-tabs-actividad" role="tabpanel" aria-labelledby="custom-tabs-actividad-tab">
+                        <div class="col-sm-12 col-md-12">
+                            {% if perms.proyectos.add_actividad %}
+                            <div class="card card-info">
+                                <div class="card-body">
+                                    <h2>Añadir nueva actividad</h2>
+                                    <form method="POST"  enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {{form_actividad|crispy}}
+                                        <p><input type="submit" value="Añadir Actividad" class="btn btn-success"></p>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+                <div class="card card-info card-tabs">
+                  <div class="card-header p-0 pt-1">
+                    <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="custom-tabs-mensajes-tab" data-toggle="pill" href="#custom-tabs-mensajes" role="tab" aria-controls="custom-tabs-mensajes" aria-selected="true">Comentarios</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-imagenes-tab" data-toggle="pill" href="#custom-tabs-imagenes" role="tab" aria-controls="custom-tabs-imagenes" aria-selected="false">Imágenes</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-lista-actividades-tab" data-toggle="pill" href="#custom-tabs-lista-actividades" role="tab" aria-controls="custom-tabs-lista-actividades" aria-selected="false">Lista Actividades</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-one-tabContent">
+
+                        <div class="tab-pane fade show active" id="custom-tabs-mensajes" role="tabpanel" aria-labelledby="custom-tabs-mensajes-tab">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="card card-primary">
+                                    <div class="card-body">
+                                        {% for comentario in comentarios %}
+                                            <div>
+                                                <p><b>Comentario</b>  por  <b class="text-primary">{{comentario.uc}}</b> el <b class="text-danger">{{comentario.creado|date:"d-M-Y"}}</b></p>
+                                                {{comentario.comentarios|linebreaks}}
+                                            </div>
+                                        {% empty %}
+                                            <p>Todavía no hay comentarios</p>
+                                        {% endfor %}
+                                        <hr>
+                                        {% if perms.proyectos.add_comentarios %}
+                                            {% if nuevo_comentario %}
+                                                <h2>Tu comentario ha sido agregado</h2>
+                                            {% else %}
+                                                <h2>Añadir nuevo comentario</h2>
+                                                <form action="." method="post">
+                                                    {% csrf_token %}
+                                                    {{comentario_form|crispy}}
+                                                    <p><input type="submit" value="Añadir comentario" class="btn btn-success"></p>
+                                                </form>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                      <div class="tab-pane fade" id="custom-tabs-imagenes" role="tabpanel" aria-labelledby="custom-tabs-imagenes-tab">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="card card-primary">
+                                <div class="card-body">
+                                    <div class="row">
+                                        {% if imagenes %}
+                                            {% for i in imagenes %}
+                                                <div class="col-sm-2">
+                                                    <a href="{{i.imagen.url}}" data-toggle="lightbox" data-title="{{i.nombre}}"  data-gallery="gallery">
+                                                        <img src="{{i.imagen.url}}" class="img-fluid mb-2" alt="{{i.nombre}}" />
+                                                    </a>
+                                                    <a href="{% url 'borrar_imagen' i.pk %}" class="text-danger">Eliminar</a>
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <h3>Todavia no hay imágenes</h3>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+
+                      <div class="tab-pane fade" id="custom-tabs-lista-actividades" role="tabpanel" aria-labelledby="custom-tabs-lista-actividades-tab">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="card card-primary">
+                                <div class="table-responsive">
+                                    {% if actividades %}
+                                    <table class="table table-striped projects">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th>Nombre Actividad</th>
+                                                <th>Fecha Inicio</th>
+                                                <th>Fecha Fin</th>
+                                                <th>Duración</th>
+                                                <th>Seguimiento</th>
+                                                <th>Controles</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for a in actividades %}
+                                            <tr>
+                                                <td><b><p class="text-success">{{a.nombre}}</p></b></td>
+                                                <td>{{a.fecha_inicio|date:"d-M-Y"}}</td>
+                                                <td>{{a.fecha_fin|date:"d-M-Y"}}</td>
+                                                <td>
+                                                    {% if a.duracion > 1 %}
+                                                        {{a.duracion}} días
+                                                    {% else %}
+                                                        {{a.duracion}} día
+                                                    {% endif %}
+                                                </td>
+                                                <td class="project_progress">
+                                                    <small>
+                                                        {% if a.programado == None %}
+                                                            Programado 0,0%
+                                                        {% else %}
+                                                            Programado {{a.programado}}%
+                                                        {% endif %}
+                                                    </small>
+                                                    <div class="progress progress-sm">
+                                                        <div class="progress-bar bg-blue" role="progressbar" aria-valuenow="57"
+                                                            aria-valuemin="0" aria-valuemax="100"
+                                                            style="width: {{a.programado|safe}}%">
+                                                        </div>
+                                                    </div>
+        
+                                                    <div class="progress progress-sm">
+                                                        <div class="progress-bar bg-orange" role="progressbar"
+                                                            aria-valuenow="57" aria-valuemin="0" aria-valuemax="100"
+                                                            style="width: {{a.avance|safe}}%">
+                                                        </div>
+                                                    </div>
+                                                    <small>
+                                                        {% if a.avance == None %}
+                                                            Ejecutado 0,0%
+                                                        {% else %}
+                                                            Ejecutado {{a.avance}}%
+                                                        {% endif %}
+                                                    </small>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-info btn-sm mb-1" href="{% url 'actualizar_actividad' a.pk %}">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </a>
+                                                    <a class="btn btn-danger btn-sm mb-1" href="{% url 'borrar_actividad' a.pk %}">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </td>
+
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% else %}
+                                        <h3>Todavia no hay actividades</h3>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock contenido %}

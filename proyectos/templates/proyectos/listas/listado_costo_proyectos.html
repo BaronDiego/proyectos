@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% block titulo %}Listado costo proyectos{% endblock titulo %}
+{% block contenido %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h2 class="card-title">Listado Costo Proyectos</h2>
+            </div>
+            <div class="card-body p-1">
+                <div class="table-responsive">
+                    <table class="table table-striped projects ">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Nombre Proyecto</th>
+                                <th>Costo</th>
+                                <th>Terminal</th>
+                                <th>Macro</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in proyectos %}
+                            <tr class="text-center">
+                                    <td><a href="{% url 'detalle_proyecto' p.id %}">{{p.nombre}}</a></td>
+                                    <td>${{p.valor_proyecto|intcomma}}</td>
+                                    <td>
+                                        {% if p.terminal == 'BUN' %}
+                                            <span style="color: #ff851b;"><b>Buenaventura</b></span>
+                                        {% endif %}
+                                        {% if p.terminal == 'CTG' %}
+                                            <span style="color: #6610f2;"><b>Cartagena</b></span>
+                                        {% endif %}
+                                        {% if p.terminal == 'BOG' %}
+                                            <span style="color: #022c0c;"><b>Bogotá</b></span>
+                                        {% endif %}
+                                        {% if p.terminal == 'GLB' %}
+                                            <span style="color: blue;"><b>Global</b></span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        
+                                        {% if p.proyecto_macro_id %}
+                                            <h6 class="text-info"><b>SI</b></h6>
+                                        {% else %}
+                                            <h6 class="text-primary"><b>NO</b></h6>
+                                        {% endif %}
+                                    </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock contenido %}
