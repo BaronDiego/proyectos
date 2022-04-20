@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-x*+nnrttbipe#8ci^w-9gax1q!6(4ik=b=@-)sy&n16y0kuthz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'www.algranel.com.co', 'proyectos.algranel.com.co']
 
 
 # Application definition
@@ -81,9 +81,9 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'appgranel_db',
+        'NAME': 'proyectos',
         'USER': 'postgres',
-        'PASSWORD': 'vale1234',
+        'PASSWORD': '!+@Algranel2021',
         'HOST': 'localhost',
         'PORT': 5432
     }
@@ -127,6 +127,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
