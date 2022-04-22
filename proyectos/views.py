@@ -376,6 +376,8 @@ class EditarDocumento(SuccessMessageMixin,SinPrivilegios, UpdateView):
     #     return reverse_lazy('detalle_proyecto', args=[self.curso.id])
 
 
+@login_required(login_url='login')
+@permission_required('proyectos.change_documento', login_url='sin_privilegios')
 def editar_documento(request, id):
     documento = get_object_or_404(Documento, pk=id)
     proyecto_id = documento.proyecto.id
@@ -695,6 +697,7 @@ class ListadoProyectosMacro(SinPrivilegios, ListView):
     context_object_name = 'obj'
 
 
+@login_required(login_url='login')
 def detalle_proy_macro(request,id):
     proyecto_macro = get_object_or_404(ProyectoMacro, pk=id)
     proyectos_del_macro = Proyecto.objects.filter(proyecto_macro=id)
@@ -730,6 +733,7 @@ class BorrarProyectoMacro(SuccessMessageMixin, SinPrivilegios, DeleteView):
     success_message = 'Proyecto para biblioteca borrado correctamente'
 
 
+@login_required(login_url='login')
 def costos_del_macro(request, id):
     proyecto_macro = get_object_or_404(ProyectoMacro, pk=id)
     proyectos_del_macro = Proyecto.objects.filter(proyecto_macro=id).values()
