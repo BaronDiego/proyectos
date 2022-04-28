@@ -227,7 +227,7 @@ def detalle_pago(request, id):
         vpp = vp.valor_proyecto  - total_pagos['Total_Pagos']
     else:
         vp = Proyecto.objects.get(id=e.id)
-        vpp = vp.valor_proyecto  - total_pagos['Total_Pagos']
+        vpp = vp.valor_proyecto_planeado  - total_pagos['Total_Pagos']
     return render(request, 'proyectos/pago/pago_detalle.html', {'pagos':pagos,'total_pagos':total_pagos,'vp':vp,'vpp':vpp})
 
 
