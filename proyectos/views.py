@@ -1,4 +1,5 @@
 import datetime
+import re
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
@@ -12,8 +13,8 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Sum
 from django.db.models import Q
 from django.core.mail import send_mail, EmailMessage
-from .models import Imagen, Proyecto, Pago, Documento, Cambio, Actividad, BibliotecaProyecto, ProyectoMacro, ActividadMacro, DocumentoMacro
-from .forms import ProyectoForm, PagoForm, DocumentoForm, ImagenForm, CambioForm, ActividadForm, BibliotecaPryectoForm, ProyectoMacroForm, ActividadMacroForm, DocumentoMacroForm, ComentarioForm
+from .models import Costo, CurvaS, Imagen, Proyecto, Pago, Documento, Cambio, Actividad, BibliotecaProyecto, ProyectoMacro, ActividadMacro, DocumentoMacro
+from .forms import CostosForm, CurvaForm, ProyectoForm, PagoForm, DocumentoForm, ImagenForm, CambioForm, ActividadForm, BibliotecaPryectoForm, ProyectoMacroForm, ActividadMacroForm, DocumentoMacroForm, ComentarioForm
 
 
 ############################
@@ -148,12 +149,122 @@ def detalle_proyecto(request, id):
     else:
         form_actividad = ActividadForm()
 
+    
+    ### Crear Curva ###
+    if request.method == 'POST':
+        form_curva = CurvaForm(data=request.POST)
+        if form_curva.is_valid():
+            cd = form_curva.cleaned_data
+            nueva_c = form_curva.save(commit=False)
+            nueva_c.proyecto = proyecto
+            nueva_c.proyecto.um = request.user.id
+            form_curva.instance.uc = request.user
+            nueva_c.proyecto.save()
+            nueva_c.save()
+            return redirect('detalle_proyecto', id=id)
+    else:
+        form_curva = CurvaForm()
 
+    
+    fechas =[]
+    fechas1 = []
+    lista_fechas_flat=[]
+    programado = []
+    programado_list_flat = []
+    ejecutado = []
+    ejecutado_list_flat = []
+    for f in CurvaS.objects.filter(proyecto_id=id).values_list('fecha'):
+        fechas.append(f)
+    fechas_list = list(map(list,fechas))
+
+    for i in fechas_list:
+        lista_fechas_flat += i
+
+    for f in lista_fechas_flat:
+        fechas1.append(f.isoformat())
+
+    for p in CurvaS.objects.filter(proyecto_id=id).values_list('programado'):
+        programado.append(p)
+    programado_list = list(map(list, programado))
+    
+    for i in programado_list:
+        programado_list_flat += i
+
+    for e in CurvaS.objects.filter(proyecto_id=id).values_list('avance'):
+        if e != (0.1,):
+            ejecutado.append(e)
+
+    ejecutado_list = list(map(list, ejecutado))
+    
+    for i in ejecutado_list:
+        ejecutado_list_flat += i
 
     duracion_c = Cambio.objects.filter(id=id)
     cambios = Cambio.objects.filter(proyecto_id=id)
     imagenes = Imagen.objects.filter(proyecto_id=id)
     actividades = Actividad.objects.filter(proyecto_id=id)
+
+
+    ### Crear Gráfico Costos ###
+    if request.method == 'POST':
+        form_costo = CostosForm(data=request.POST)
+        if form_costo.is_valid():
+            cd = form_costo.cleaned_data
+            nuevo_costo = form_costo.save(commit=False)
+            nuevo_costo.proyecto = proyecto
+            nuevo_costo.proyecto.um = request.user.id
+            form_costo.instance.uc = request.user
+            nuevo_costo.proyecto.save()
+            nuevo_costo.save()
+            return redirect('detalle_proyecto', id=id)
+    else:
+        form_costo = CostosForm()
+
+    costo_programado = []
+    costo_programado_list_flat = []
+    costo_ejecutado = []
+    costo_ejecutado_list_flat = []
+    facturacion_planeada = []
+    fp_list_flat = []
+    facturacion_real = []
+    fr_list_flat = []
+
+    for f in Costo.objects.filter(proyecto_id=id).values_list('costo_programado'):
+        costo_programado.append(f)
+    costo_programado_list = list(map(list,costo_programado))
+
+    for i in costo_programado_list:
+        costo_programado_list_flat += i
+
+    for f in Costo.objects.filter(proyecto_id=id).values_list('costo_ejecutado'):
+        costo_ejecutado.append(f)
+    costo_ejecutado_list = list(map(list,costo_ejecutado))
+
+    for i in costo_ejecutado_list:
+        costo_ejecutado_list_flat += i
+
+    for f in Costo.objects.filter(proyecto_id=id).values_list('facturacion_planeada'):
+        facturacion_planeada.append(f)
+    fc_ejecutado_list = list(map(list,facturacion_planeada))
+
+    for i in fc_ejecutado_list:
+        fp_list_flat += i
+
+    for f in Costo.objects.filter(proyecto_id=id).values_list('facturacion_real'):
+        facturacion_real.append(f)
+    fc_real_list = list(map(list,facturacion_real))
+
+    for i in  fc_real_list:
+       fr_list_flat += i
+
+    costo_programado_list_flat += costo_ejecutado_list_flat
+    costo_programado_list_flat += fp_list_flat
+    costo_programado_list_flat += fr_list_flat
+
+    costos = Costo.objects.all()
+
+
+
 
 
     return render(request, 'proyectos/proyecto/proyecto_detalle.html', {
@@ -169,6 +280,14 @@ def detalle_proyecto(request, id):
         'documento_form':documento_form,
         'form_actividad':form_actividad,
         'actividades':actividades,
+        'form_curva':form_curva,
+        'programado_list_flat':programado_list_flat,
+        'fechas1':fechas1,
+        'ejecutado_list_flat':ejecutado_list_flat,
+        'form_costo':form_costo,
+        'costo_programado_list_flat':costo_programado_list_flat,
+        'costo_ejecutado_list_flat':costo_ejecutado_list_flat,
+        'costos':costos
         })
 
 
@@ -227,7 +346,7 @@ def detalle_pago(request, id):
         vpp = vp.valor_proyecto  - total_pagos['Total_Pagos']
     else:
         vp = Proyecto.objects.get(id=e.id)
-        vpp = vp.valor_proyecto_planeado  - total_pagos['Total_Pagos']
+        vpp = vp.valor_proyecto  - total_pagos['Total_Pagos']
     return render(request, 'proyectos/pago/pago_detalle.html', {'pagos':pagos,'total_pagos':total_pagos,'vp':vp,'vpp':vpp})
 
 
@@ -376,8 +495,6 @@ class EditarDocumento(SuccessMessageMixin,SinPrivilegios, UpdateView):
     #     return reverse_lazy('detalle_proyecto', args=[self.curso.id])
 
 
-@login_required(login_url='login')
-@permission_required('proyectos.change_documento', login_url='sin_privilegios')
 def editar_documento(request, id):
     documento = get_object_or_404(Documento, pk=id)
     proyecto_id = documento.proyecto.id
@@ -697,7 +814,6 @@ class ListadoProyectosMacro(SinPrivilegios, ListView):
     context_object_name = 'obj'
 
 
-@login_required(login_url='login')
 def detalle_proy_macro(request,id):
     proyecto_macro = get_object_or_404(ProyectoMacro, pk=id)
     proyectos_del_macro = Proyecto.objects.filter(proyecto_macro=id)
@@ -733,7 +849,6 @@ class BorrarProyectoMacro(SuccessMessageMixin, SinPrivilegios, DeleteView):
     success_message = 'Proyecto para biblioteca borrado correctamente'
 
 
-@login_required(login_url='login')
 def costos_del_macro(request, id):
     proyecto_macro = get_object_or_404(ProyectoMacro, pk=id)
     proyectos_del_macro = Proyecto.objects.filter(proyecto_macro=id).values()
@@ -869,4 +984,45 @@ class BorrarDocumentoMacro(SuccessMessageMixin,SinPrivilegios, DeleteView):
     success_message = "Documento borrado correctamente"
 
 
+###########################
+## Vistas Modelo Curva S ##
+###########################
+@login_required(login_url='login')
+@permission_required('proyectos.change_curva_s', login_url='sin_privilegios')
+def editar_curva(request,id):
+    curva = get_object_or_404(CurvaS, pk=id)
+    proyecto_id = curva.proyecto.id
+    if request.method == 'POST':
+        form_curva = CurvaForm(request.POST, instance=curva)
+        if form_curva.is_valid():
+            curva.um = request.user.id
+            form_curva.save()
+            messages.success(request, 'curva editada correctamente')
+            return redirect('detalle_proyecto', id=proyecto_id)
+    else:
+        form_curva = CurvaForm(instance=curva)
+        return render(request, 'proyectos/curva/editar_curva.html', {'form_curva':form_curva})
 
+
+@login_required(login_url='login')
+@permission_required('proyectos.view_curva_s', login_url='sin_privilegios')
+def lista_puntos(request, id):
+    puntos = CurvaS.objects.filter(proyecto_id=id)
+    return render(request, 'proyectos/curva/lista_puntos.html', {'puntos':puntos})
+
+
+##########################
+## Vistas Modelo Costos ##
+##########################
+class EditarProyecto(SuccessMessageMixin , SinPrivilegios, UpdateView):
+    permission_required = "proyectos.change_costo"
+    model = Costo
+    template_name = 'proyectos/costo/editar_costo.html'
+    context_object_name = 'costo_editar'
+    form_class = CostosForm
+    success_url = reverse_lazy('graficos')
+    success_message = "Costo editado correctamente"
+
+    def form_valid(self, form):
+        form.instance.um = self.request.user.id
+        return super().form_valid(form)

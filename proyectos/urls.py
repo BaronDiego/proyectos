@@ -53,4 +53,7 @@ urlpatterns = [
     path('documento_detalle_macro/<int:id>/', views.detalle_documentos_macro, name='detalle_doc_macro'),
     path('editar_documento_macro/<pk>/', views.EditarDocumentoMacro.as_view(), name='editar_documento_macro'),
     path('borrar_documento_macro/<pk>/', views.BorrarDocumentoMacro.as_view(), name='borrar_documento_macro'),
+    path('puntos_curva/<int:id>/', views.lista_puntos, name="puntos"),
+    path('editar_punto/<int:id>/', views.editar_curva, name="editar_curva"),
+    path('editar_costo/<pk>/', views.EditarProyecto.as_view(), name="editar_costo"),
 ]

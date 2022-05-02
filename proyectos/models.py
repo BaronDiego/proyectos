@@ -196,3 +196,21 @@ class Comentarios(Base):
 
     class Meta:
         ordering = ('-creado',)
+
+
+class CurvaS(Base):
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
+    fecha = models.DateField()
+    programado = models.FloatField(max_length=5, blank=True, null=True)
+    avance = models.FloatField(max_length=5, blank=True, null=True)
+
+    class Meta:
+        ordering = ('creado',)
+
+
+class Costo(Base):
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
+    costo_programado = models.BigIntegerField(default=0, blank=True, null=True)
+    costo_ejecutado = models.BigIntegerField(default=0, blank=True, null=True)
+    facturacion_planeada = models.BigIntegerField(default=0, blank=True, null=True)
+    facturacion_real = models.BigIntegerField(default=0, blank=True, null=True)

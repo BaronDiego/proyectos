@@ -1,5 +1,5 @@
 from django import forms
-from .models import Proyecto, Pago, Documento, Imagen, Cambio, Actividad, BibliotecaProyecto, ProyectoMacro, ActividadMacro, DocumentoMacro, Comentarios
+from .models import Proyecto, Pago, Documento, Imagen, Cambio, Actividad, BibliotecaProyecto, ProyectoMacro, ActividadMacro, DocumentoMacro, Comentarios, CurvaS, Costo
 
 class ProyectoMacroForm(forms.ModelForm):
     class Meta:
@@ -85,3 +85,14 @@ class ComentarioForm(forms.ModelForm):
     class Meta:
         model = Comentarios
         fields = ['comentarios']
+
+class CurvaForm(forms.ModelForm):
+    class Meta:
+        model = CurvaS
+        fields = ['fecha', 'programado', 'avance']
+
+
+class CostosForm(forms.ModelForm):
+    class Meta:
+        model = Costo
+        fields = ['costo_programado', 'costo_ejecutado', 'facturacion_planeada', 'facturacion_real']
