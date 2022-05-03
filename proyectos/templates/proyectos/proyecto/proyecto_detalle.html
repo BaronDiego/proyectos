@@ -328,9 +328,7 @@
                                             <div class="chart-container">
                                                 <canvas id="myChart2" width="400" height="150"></canvas>
                                             </div>
-                                            {% for c in costos %}
-                                                <p><a href="{% url 'editar_costo' c.pk %}">Editar</a></p>
-                                            {% endfor %}
+                                                <p><a href="{% url 'editar_costo' id_costo %}">Editar</a></p>
                                         </div>
                                     </div>
                                 </div>

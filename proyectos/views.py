@@ -262,6 +262,8 @@ def detalle_proyecto(request, id):
     costo_programado_list_flat += fr_list_flat
 
     costos = Costo.objects.all()
+    costo_id = Costo.objects.filter(proyecto_id=id).values()
+    id_costo = costo_id[0]['id']
 
 
 
@@ -287,7 +289,8 @@ def detalle_proyecto(request, id):
         'form_costo':form_costo,
         'costo_programado_list_flat':costo_programado_list_flat,
         'costo_ejecutado_list_flat':costo_ejecutado_list_flat,
-        'costos':costos
+        'costos':costos,
+        'id_costo':id_costo,
         })
 
 
@@ -1014,7 +1017,7 @@ def lista_puntos(request, id):
 ##########################
 ## Vistas Modelo Costos ##
 ##########################
-class EditarProyecto(SuccessMessageMixin , SinPrivilegios, UpdateView):
+class EditarCosto(SuccessMessageMixin , SinPrivilegios, UpdateView):
     permission_required = "proyectos.change_costo"
     model = Costo
     template_name = 'proyectos/costo/editar_costo.html'
