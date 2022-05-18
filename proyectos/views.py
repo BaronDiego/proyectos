@@ -261,11 +261,12 @@ def detalle_proyecto(request, id):
     costo_programado_list_flat += fp_list_flat
     costo_programado_list_flat += fr_list_flat
 
-    costos = Costo.objects.all()
-    costo_id = Costo.objects.filter(proyecto_id=id).values()
-    id_costo = costo_id[0]['id']
-
-
+    try:
+        costos = Costo.objects.all()
+        costo_id = Costo.objects.filter(proyecto_id=id).values()
+        id_costo = costo_id[0]['id']
+    except IndexError:
+        id_costo = None
 
 
 

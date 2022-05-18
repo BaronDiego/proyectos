@@ -426,16 +426,16 @@
                                                             {{a.duracion}} día
                                                             {% endif %}
                                                         </td>
-                                                        <td class="project_progress">
-                                                            <small>
+                                                        <td>
+                                                            <span class="badge bg-primary">
                                                                 {% if a.programado == None %}
                                                                 Programado 0,0%
                                                                 {% else %}
                                                                 Programado {{a.programado}}%
                                                                 {% endif %}
-                                                            </small>
+                                                            </span>
                                                             <div class="progress progress-sm">
-                                                                <div class="progress-bar bg-blue" role="progressbar"
+                                                                <div class="progress-bar progress-bar-primary" role="progressbar"
                                                                     aria-valuenow="57" aria-valuemin="0"
                                                                     aria-valuemax="100"
                                                                     style="width: {{a.programado|safe}}%">
@@ -443,19 +443,20 @@
                                                             </div>
 
                                                             <div class="progress progress-sm">
-                                                                <div class="progress-bar bg-orange" role="progressbar"
+                                                                <div class="progress-bar bg-warning" role="progressbar"
                                                                     aria-valuenow="57" aria-valuemin="0"
                                                                     aria-valuemax="100"
                                                                     style="width: {{a.avance|safe}}%">
                                                                 </div>
                                                             </div>
-                                                            <small>
+                                                            <span class="badge bg-warning">
                                                                 {% if a.avance == None %}
                                                                 Ejecutado 0,0%
                                                                 {% else %}
                                                                 Ejecutado {{a.avance}}%
                                                                 {% endif %}
-                                                            </small>
+
+                                                            </span>
                                                         </td>
                                                         <td>
                                                             <a class="btn btn-info btn-sm mb-1"

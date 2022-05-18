@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+{% block titulo %}Listado de Puntos Cuva "S"{% endblock titulo %}
+{% block contenido %}
+{% load users_tags %}
+{% total_users as tu %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="card card-info">
+            <div class="card-header">
+                <h2 class="card-title">Listado Puntos</h2>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body p-1">
+                
+                {% if puntos %}
+                <div class="table-responsive">
+                    <table class="table table-striped projects ">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Fecha</th>
+                                <th>Programado</th>
+                                <th>Avance</th>
+                                <th>Controles</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in puntos %}
+                                <tr class="text-center">
+                                    <td>{{p.fecha}}</td>
+                                    <td>{{p.programado}}</td>
+                                    <td>{{p.avance}}</td>
+                                    <td>
+                                        <a class="btn btn-info btn-sm mb-1" href="{% url 'editar_curva' p.pk %}">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <!-- <a class="btn btn-danger btn-sm mb-1" href="{% url 'borrar_proyecto' p.pk %}">
+                                            <i class="fas fa-trash"></i>
+                                        </a> -->
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                    <h3>No curva creada</h3>
+                {% endif %}
+                    
+                
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock contenido %}
