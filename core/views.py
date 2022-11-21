@@ -9,6 +9,15 @@ from django.views.generic import TemplateView
 def home(request):
     return render(request, 'core/index.html')
 
+def capex_bun(request):
+    return render(request, 'core/capex_bun.html')
+
+def ani_ctg(request):
+    return render(request, 'core/ani.html')
+
+def lote_e_bun(request):
+    return render(request, 'core/lote_bun.html')
+
 class HomeSinPrevilegios(LoginRequiredMixin, TemplateView):
     template_name = 'core/sin_privilegios.html'
     login_url = 'login'

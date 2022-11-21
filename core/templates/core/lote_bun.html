@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block titulo %}Lote E-BUN{% endblock titulo %}
+
+{% block index %}
+
+{% if user.is_authenticated %}
+    {% include 'proyectos/graficas/bar_chart.html' %}
+{% endif %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'home' %}">AppGranel</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Salir
+                    </a>
+                    <a href="{% url 'proyectos_list' %}" class="dropdown-item">
+                        <i class="fas fa-list-ul mr-2"></i> Listado de proyectos
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="text-white">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Ingresar
+                    </a>
+                    <!-- <div class="dropdown-divider"></div> -->
+                    {% endif %}
+
+                <!-- </div> -->
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="row justify-content-center mt-0">
+        <iframe title="Presentacion" width="1920" height="980" src="https://app.powerbi.com/reportEmbed?reportId=17c13c8a-5d92-4e97-bcc4-c0396d35dc90&autoAuth=true&ctid=a8cc5189-6488-43a2-9213-8e02a6fc71cf" frameborder="0" allowFullScreen="true"></iframe>
+    </div>
+</div>
+{% endblock index %}

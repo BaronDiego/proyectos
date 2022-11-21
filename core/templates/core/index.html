@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block titulo %}Inicio{% endblock titulo %}
 
@@ -44,10 +45,32 @@
         </ul>
     </div>
 </nav>
-<div class="jumbotron jumbotron-fluid">
-    <div class="container text-center">
-        <h1 class="display-3 text-success"><b>AppGranel</b></h1>
-        <p class="lead">App para gestión de proyectos</p>
+<div class="container">
+    <div class="row justify-content-center mt-4">
+            <div class="card-deck">
+                <div class="card">
+                  <img src="{% static 'img/5ctg.jpg' %}" class="img-fluid img-thumbnail" width="3902" height="2192" alt="...">
+                  <div class="card-body text-center">
+                    <h3 class="">Seguimiento Proyectos ANI</h3>
+                    <a href="{% url 'ani_ctg' %}" class="btn btn-outline-primary btn-lg btn-block">Ver Informe</a>
+                  </div>
+                </div>
+                <div class="card">
+                  <img src="{% static 'img/3bun.JPG' %}" class="img-fluid img-thumbnail" width="3902" height="2192" alt="...">
+                  <div class="card-body text-center">
+                    <h3 class="">Capex Buenaventura 2022</h3>
+                    <a href="{% url 'capex_bun' %}" class="btn btn-outline-primary btn-lg btn-block">Ver Informe</a>
+                  </div>
+                </div>
+                <div class="card">
+                    <img src="{% static 'img/lote-Expan.png' %}" class="img-fluid img-thumbnail" width="3902" height="2192" alt="...">
+                    <div class="card-body text-center">
+                      <h3 class="">Lote-E BUN</h3>
+                      <a href="{% url 'lote_e' %}" class="btn btn-outline-primary btn-lg btn-block">Ver Informe</a>
+                    </div>
+                  </div>
+              </div>
+        <!-- <iframe title="Resumen_Capex_2022_Bun" width="1920" height="980" src="https://app.powerbi.com/reportEmbed?reportId=fb342d2b-0493-43cb-82d9-dac883eb357c&autoAuth=true&ctid=a8cc5189-6488-43a2-9213-8e02a6fc71cf" frameborder="0" allowFullScreen="true"></iframe> -->
     </div>
 </div>
 {% endblock index %}
